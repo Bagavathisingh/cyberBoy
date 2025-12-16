@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { addMessage } from "../utils/chatbotData";
+import Loader from "../components/Loader";
 
 function Chatbot() {
   const [messages, setMessages] = useState([
@@ -216,6 +217,7 @@ function Chatbot() {
 
   return (
     <div className="flex flex-col h-[calc(100vh-73px)] bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 px-2 sm:px-0">
+      {isLoading && <Loader />}
       <div className="px-3 py-3 sm:px-6 sm:py-4">
         <h1 className="text-xl sm:text-2xl font-bold text-white">
           Cyber Boy Chat
