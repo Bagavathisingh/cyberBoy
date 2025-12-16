@@ -80,7 +80,9 @@ function Chatbot() {
       });
 
       // Use proxy in development, real API in production
-      const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+      const isLocal =
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1";
       const apiUrl = isLocal
         ? "/api/openrouter/v1/chat/completions"
         : "https://openrouter.ai/api/v1/chat/completions";
