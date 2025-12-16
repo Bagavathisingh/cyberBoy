@@ -79,7 +79,12 @@ function Chatbot() {
         content: userInput,
       });
 
-      const response = await fetch("/api/openrouter/v1/chat/completions", {
+      // Use proxy in development, real API in production
+      const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+      const apiUrl = isLocal
+        ? "/api/openrouter/v1/chat/completions"
+        : "https://openrouter.ai/api/v1/chat/completions";
+      const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
