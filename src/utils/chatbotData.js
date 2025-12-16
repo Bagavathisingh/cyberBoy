@@ -78,7 +78,8 @@ export const addMessage = async (message, sessionId = null) => {
       startedAt: new Date().toISOString(),
       ...(sessionId && { sessionId })
     }
-    await fetch('http://localhost:5000/api/sessions', {
+    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+    await fetch(`${BACKEND_URL}/api/sessions`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
