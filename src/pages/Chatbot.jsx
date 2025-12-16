@@ -299,25 +299,7 @@ function Chatbot() {
             </div>
           </div>
         ))}
-        {/* Bot typing indicator */}
-        {isLoading && (
-          <div className="flex justify-start">
-            <div className="max-w-[85vw] sm:max-w-[70%] rounded-2xl px-3 py-2 sm:px-4 sm:py-3 bg-slate-700/80 text-gray-100 backdrop-blur-sm">
-              <div className="text-xs sm:text-sm">
-                <div style={{ position: "relative", left: "-2px" }}>
-                  <div
-                    className="bouncing-loader bouncing-loader--small"
-                    style={{ position: "static" }}
-                  >
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+        {/* Bot typing indicator removed as requested */}
         <div ref={messagesEndRef} />
       </div>
 
