@@ -3,7 +3,11 @@ import "./Loader.css";
 
 const Loader = () => (
   <div className="loader-overlay">
-    <div className="loader"></div>
+    <div className="bouncing-loader">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
   </div>
 );
 
