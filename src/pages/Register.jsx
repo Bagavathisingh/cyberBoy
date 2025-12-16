@@ -30,12 +30,12 @@ function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 dark:bg-prime-bg dark:bg-none px-2 sm:px-0">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 px-2 sm:px-0">
       <form
         onSubmit={handleSubmit}
-        className="bg-slate-800/50 dark:bg-prime-surface p-4 sm:p-8 rounded-xl shadow-lg w-full max-w-md border border-purple-500/30 dark:border-prime-accent"
+        className="bg-slate-800/50 p-4 sm:p-8 rounded-xl shadow-lg w-full max-w-md border border-purple-500/30"
       >
-        <h2 className="text-xl sm:text-2xl font-bold text-white dark:text-prime-text mb-6 text-center">
+        <h2 className="text-xl sm:text-2xl font-bold text-white mb-6 text-center">
           Register
         </h2>
         {error && (
