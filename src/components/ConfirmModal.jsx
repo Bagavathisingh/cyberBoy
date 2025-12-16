@@ -1,4 +1,12 @@
-function ConfirmModal({ open, onClose, onConfirm, title = "Confirm", message = "Are you sure?", confirmText = "Confirm", confirmColor = "bg-red-600 hover:bg-red-700" }) {
+function ConfirmModal({
+  open,
+  onClose,
+  onConfirm,
+  title = "Confirm",
+  message = "Are you sure?",
+  confirmText = "Confirm",
+  confirmColor = "bg-red-600 hover:bg-red-700",
+}) {
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
@@ -6,9 +14,7 @@ function ConfirmModal({ open, onClose, onConfirm, title = "Confirm", message = "
         <h3 className="text-lg font-bold text-white mb-4 text-center">
           {title}
         </h3>
-        <p className="text-gray-300 mb-6 text-center">
-          {message}
-        </p>
+        <p className="text-gray-300 mb-6 text-center">{message}</p>
         <div className="flex gap-3 justify-center">
           <button
             onClick={onClose}
