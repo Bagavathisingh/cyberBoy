@@ -15,10 +15,7 @@ function Navigation() {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-4 w-full sm:w-auto justify-between">
             <Link to="/" className="flex items-center gap-3 group">
-              <div className="w-8 h-8 border border-cyber-accent/40 bg-cyber-accent/5 flex items-center justify-center relative transition-all duration-500 group-hover:border-cyber-accent">
-                <div className="w-3 h-3 bg-cyber-accent animate-pulse-subtle" />
-                <div className="absolute -top-1 -right-1 w-2 h-2 border-t border-r border-cyber-accent opacity-0 group-hover:opacity-100 transition-opacity" />
-              </div>
+              <img src="/logo.svg" alt="App Logo" className="w-10 h-10 object-contain drop-shadow-[0_0_8px_rgba(0,255,157,0.5)] transition-transform duration-500 group-hover:rotate-180" />
               <span className="text-lg font-orbitron font-black tracking-widest text-cyber-text">
                 CYBER<span className="text-cyber-accent"> BOY</span>
               </span>
@@ -48,8 +45,8 @@ function Navigation() {
                 key={link.to}
                 to={link.to}
                 className={`text-[10px] font-orbitron uppercase tracking-[0.3em] font-bold transition-all duration-300 relative ${isActive(link.to)
-                    ? "text-cyber-accent"
-                    : "text-cyber-muted hover:text-cyber-text"
+                  ? "text-cyber-accent"
+                  : "text-cyber-muted hover:text-cyber-text"
                   }`}
                 onClick={() => setMenuOpen(false)}
               >
