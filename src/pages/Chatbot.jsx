@@ -358,6 +358,30 @@ function Chatbot() {
                 </div>
               </div>
             ))}
+            {isLoading && (
+              <div className="flex justify-start animate-in fade-in slide-in-from-left-4 duration-300">
+                <div className="max-w-[85vw] sm:max-w-[80%] relative">
+                  <div className="text-[10px] font-orbitron uppercase mb-1 text-cyber-accent">
+                    :: Cyber_Boy
+                  </div>
+                  <div
+                    className="rounded-sm px-3 py-2 sm:px-4 sm:py-3 border bg-cyber-accent/5 border-cyber-accent/30 text-cyber-accent"
+                    style={{
+                      clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)'
+                    }}
+                  >
+                    <div className="flex items-center gap-3 font-cyber text-xs sm:text-sm">
+                      <div className="flex gap-1">
+                        <span className="w-1.5 h-1.5 bg-cyber-accent rounded-full animate-bounce [animation-duration:0.8s]" />
+                        <span className="w-1.5 h-1.5 bg-cyber-accent rounded-full animate-bounce [animation-duration:0.8s] [animation-delay:0.2s]" />
+                        <span className="w-1.5 h-1.5 bg-cyber-accent rounded-full animate-bounce [animation-duration:0.8s] [animation-delay:0.4s]" />
+                      </div>
+                      <span className="uppercase tracking-[0.2em] animate-pulse">Analyzing_System_Input...</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
             <div ref={messagesEndRef} />
           </div>
 
