@@ -216,110 +216,183 @@ function Chatbot() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-73px)] bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 px-2 sm:px-0">
-      {/* Header */}
-      <div className="px-3 py-3 sm:px-6 sm:py-4">
-        <h1 className="text-xl sm:text-2xl font-bold text-white">
-          Cyber Boy Chat
-        </h1>
-        <p className="text-xs sm:text-sm text-purple-300">
-          Your AI-powered cybersecurity assistant
-        </p>
-      </div>
+    <div className="relative flex flex-col h-[calc(100vh-73px)] bg-cyber-bg cyber-grid-bg px-2 sm:px-0 overflow-hidden">
+      {/* Background Decor */}
+      <div className="scanline" />
 
-      <div className="flex-1 overflow-y-auto px-3 py-3 sm:px-6 sm:py-4 space-y-3 sm:space-y-4">
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`flex ${
-              message.sender === "user" ? "justify-end" : "justify-start"
-            }`}
-          >
-            <div
-              className={`max-w-[85vw] sm:max-w-[70%] rounded-2xl px-3 py-2 sm:px-4 sm:py-3 ${
-                message.isError
-                  ? "bg-red-600/80 text-white"
-                  : message.sender === "user"
-                  ? "bg-purple-600 text-white"
-                  : "bg-slate-700/80 text-gray-100 backdrop-blur-sm"
-              }`}
-            >
-              <div className="text-xs sm:text-sm whitespace-pre-wrap">
-                {message.text.split("\n").map((line, index) => {
-                  const trimmedLine = line.trim();
-
-                  if (
-                    trimmedLine.startsWith("[H1]") &&
-                    trimmedLine.endsWith("[/H1]")
-                  ) {
-                    const headerText = trimmedLine.slice(4, -5);
-                    return (
-                      <div
-                        key={index}
-                        className="font-bold text-lg mb-2 mt-3 first:mt-0"
-                      >
-                        {headerText}
-                      </div>
-                    );
-                  }
-
-                  if (
-                    trimmedLine.startsWith("[H2]") &&
-                    trimmedLine.endsWith("[/H2]")
-                  ) {
-                    const headerText = trimmedLine.slice(4, -5);
-                    return (
-                      <div
-                        key={index}
-                        className="font-bold text-lg mb-2 mt-3 first:mt-0"
-                      >
-                        {headerText}
-                      </div>
-                    );
-                  }
-
-                  if (
-                    trimmedLine.startsWith("[H3]") &&
-                    trimmedLine.endsWith("[/H3]")
-                  ) {
-                    const headerText = trimmedLine.slice(4, -5);
-                    return (
-                      <div
-                        key={index}
-                        className="font-bold text-base mb-1 mt-2 first:mt-0"
-                      >
-                        {headerText}
-                      </div>
-                    );
-                  }
-
-                  return <div key={index}>{line || "\u00A0"}</div>;
-                })}
-              </div>
+      {/* Main Layout */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* Left Side: Diagnostics (Visible on large screens) */}
+        <div className="hidden lg:flex flex-col w-64 border-r border-cyber-border p-4 space-y-4 font-orbitron text-[10px] uppercase tracking-tighter">
+          <div className="cyber-box p-3 border-cyber-accent/50">
+            <h3 className="text-cyber-accent mb-2 cyber-text-glow">System Status</h3>
+            <div className="space-y-1">
+              <div className="flex justify-between"><span>CPU_LOAD</span> <span className="text-cyber-success">42%</span></div>
+              <div className="flex justify-between"><span>MEM_USE</span> <span className="text-cyber-success">1.2GB</span></div>
+              <div className="flex justify-between"><span>NET_CONN</span> <span className="text-cyber-success">STABLE</span></div>
+              <div className="flex justify-between"><span>CORE_TEMP</span> <span className="text-amber-400">45°C</span></div>
             </div>
           </div>
-        ))}
-        {/* Bot typing indicator removed as requested */}
-        <div ref={messagesEndRef} />
-      </div>
 
-      <div className="bg-slate-800/50 backdrop-blur-sm border-t border-purple-500/30 px-3 py-3 sm:px-6 sm:py-4">
-        <form onSubmit={handleSend} className="flex gap-2 sm:gap-3">
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Type your message..."
-            className="flex-1 bg-slate-700/80 text-white placeholder-gray-400 rounded-xl px-3 py-2 sm:px-4 sm:py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 border border-slate-600 text-xs sm:text-base"
-          />
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="bg-purple-600 hover:bg-purple-700 disabled:bg-purple-800 disabled:cursor-not-allowed text-white px-4 py-2 sm:px-6 sm:py-3 rounded-xl font-semibold transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 text-xs sm:text-base"
-          >
-            {isLoading ? "Sending..." : "Send"}
-          </button>
-        </form>
+          <div className="cyber-box p-3 border-cyber-secondary/50">
+            <h3 className="text-cyber-secondary mb-2">Bot Brain</h3>
+            <div className="animate-pulse-fast text-cyber-secondary/80">
+              [ANALYZING_PACKETS...]
+              [UPDATING_MODELS...]
+              [ENCRYPTING_PIPE...]
+            </div>
+          </div>
+
+          <div className="flex-1" />
+
+          <div className="text-cyber-muted italic">
+            v2.4.0-STABLE
+            <br />
+            ID: CB-9981-22
+          </div>
+        </div>
+
+        {/* Center: Chat Area */}
+        <div className="flex-1 flex flex-col min-w-0">
+          {/* Header */}
+          <div className="px-3 py-3 sm:px-6 sm:py-4 border-b border-cyber-border bg-cyber-bg/50 backdrop-blur-md flex items-center justify-between">
+            <div>
+              <h1 className="text-xl sm:text-2xl font-bold text-cyber-accent font-orbitron cyber-text-glow flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-cyber-success animate-pulse" />
+                CYBER BOY
+              </h1>
+              <p className="text-[10px] sm:text-xs text-cyber-muted font-orbitron tracking-widest uppercase">
+                Neural Security Interface
+              </p>
+            </div>
+            <div className="hidden sm:block text-[10px] font-mono text-cyber-accent/50 animate-pulse">
+              [CONNECTED_TO_DEEPSEEK_NODE]
+            </div>
+          </div>
+
+          {/* Messages */}
+          <div className="flex-1 overflow-y-auto px-3 py-3 sm:px-6 sm:py-4 space-y-4 custom-scrollbar">
+            {messages.map((message) => (
+              <div
+                key={message.id}
+                className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"
+                  }`}
+              >
+                <div
+                  className={`max-w-[85vw] sm:max-w-[80%] relative group ${message.sender === "user" ? "" : ""
+                    }`}
+                >
+                  {/* Sender Label */}
+                  <div className={`text-[10px] font-orbitron uppercase mb-1 ${message.sender === "user" ? "text-right text-cyber-secondary" : "text-cyber-accent"
+                    }`}>
+                    {message.sender === "user" ? ":: Operator" : ":: Cyber_Boy"}
+                  </div>
+
+                  {/* Message Bubble */}
+                  <div
+                    className={`rounded-sm px-3 py-2 sm:px-4 sm:py-3 border ${message.isError
+                      ? "bg-red-950/40 border-red-500 text-red-200"
+                      : message.sender === "user"
+                        ? "bg-cyber-secondary/10 border-cyber-secondary/40 text-cyber-text"
+                        : "bg-cyber-accent/5 border-cyber-accent/30 text-cyber-accent/90"
+                      } ${message.sender !== 'user' && 'bot-message-glitch'}`}
+                    style={{
+                      clipPath: message.sender === 'user'
+                        ? 'polygon(0 0, 100% 0, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
+                        : 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)'
+                    }}
+                  >
+                    <div className="text-xs sm:text-sm whitespace-pre-wrap font-cyber leading-relaxed">
+                      {message.text.split("\n").map((line, index) => {
+                        const trimmedLine = line.trim();
+
+                        if (
+                          trimmedLine.startsWith("[H1]") &&
+                          trimmedLine.endsWith("[/H1]")
+                        ) {
+                          const headerText = trimmedLine.slice(4, -5);
+                          return (
+                            <div
+                              key={index}
+                              className="font-bold text-cyber-accent text-lg mb-2 mt-3 first:mt-0 font-orbitron cyber-text-glow"
+                            >
+                              __{headerText}
+                            </div>
+                          );
+                        }
+
+                        if (
+                          trimmedLine.startsWith("[H2]") &&
+                          trimmedLine.endsWith("[/H2]")
+                        ) {
+                          const headerText = trimmedLine.slice(4, -5);
+                          return (
+                            <div
+                              key={index}
+                              className="font-bold text-cyber-accent text-lg mb-2 mt-3 first:mt-0 font-orbitron"
+                            >
+                              {"> "} {headerText}
+                            </div>
+                          );
+                        }
+
+                        if (
+                          trimmedLine.startsWith("[H3]") &&
+                          trimmedLine.endsWith("[/H3]")
+                        ) {
+                          const headerText = trimmedLine.slice(4, -5);
+                          return (
+                            <div
+                              key={index}
+                              className="font-bold text-cyber-accent text-base mb-1 mt-2 first:mt-0"
+                            >
+                              # {headerText}
+                            </div>
+                          );
+                        }
+
+                        return <div key={index}>{line || "\u00A0"}</div>;
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* Input Area */}
+          <div className="bg-cyber-bg/80 backdrop-blur-xl border-t border-cyber-border p-3 sm:px-6 sm:py-6">
+            <form onSubmit={handleSend} className="flex gap-2 sm:gap-4 max-w-5xl mx-auto">
+              <div className="flex-1 relative">
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-cyber-accent/50 font-mono text-xs hidden sm:block">
+                  $
+                </div>
+                <input
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="EXECUTIVE_COMMAND_INPUT..."
+                  className="w-full bg-cyber-bg border border-cyber-border text-cyber-accent placeholder-cyber-muted/50 rounded-sm px-4 py-3 sm:pl-8 sm:py-4 focus:outline-none focus:border-cyber-accent transition-colors font-cyber text-xs sm:text-base"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="cyber-button min-w-[100px] flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed group"
+              >
+                {isLoading ? (
+                  <span className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 bg-cyber-accent animate-ping" />
+                    RUNNING
+                  </span>
+                ) : (
+                  <span className="group-hover:animate-pulse">EXECUTE</span>
+                )}
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   );

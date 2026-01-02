@@ -28,45 +28,67 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 dark:bg-gradient-to-br dark:from-prime-bg-gradient-from dark:to-prime-bg-gradient-to px-2 sm:px-0">
+    <div className="min-h-screen flex items-center justify-center bg-cyber-bg cyber-grid-bg px-4 relative overflow-hidden">
+      <div className="scanline" />
+
+      {/* Background Decor */}
+      <div className="absolute top-10 left-10 w-32 h-32 border border-cyber-accent/10 rounded-full animate-pulse" />
+      <div className="absolute bottom-10 right-10 w-64 h-64 border border-cyber-secondary/5 border-dashed rounded-full animate-spin [animation-duration:20s]" />
+
       <form
         onSubmit={handleSubmit}
-        className="bg-slate-800/50 dark:bg-prime-surface p-4 sm:p-8 rounded-2xl shadow-2xl w-full max-w-md border border-purple-500/30 dark:border-prime-border"
+        className="cyber-box p-6 sm:p-10 w-full max-w-md relative z-10 before:content-['IDENT_REQ'] before:absolute before:-top-3 before:left-10 before:bg-cyber-bg before:px-2 before:text-[10px] before:text-cyber-accent before:font-orbitron before:tracking-[0.2em]"
       >
-        <h2 className="text-xl sm:text-2xl font-bold text-white dark:text-prime-text-strong mb-6 text-center tracking-wide">
-          Login
-        </h2>
+        <div className="text-center mb-8">
+          <h2 className="text-2xl sm:text-3xl font-black text-white font-orbitron tracking-tighter cyber-text-glow mb-2">
+            TERMINAL_LOGIN
+          </h2>
+          <div className="h-[2px] w-20 bg-cyber-accent mx-auto" />
+        </div>
+
         {error && (
-          <div className="text-red-400 dark:text-prime-danger mb-4 text-center">
-            {error}
+          <div className="bg-cyber-secondary/10 border border-cyber-secondary/50 text-cyber-secondary px-4 py-3 mb-6 text-center text-xs font-mono animate-flicker">
+            [ERROR]: {error}
           </div>
         )}
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full mb-4 px-3 py-3 sm:px-4 rounded-xl bg-slate-700/80 dark:bg-prime-surface-2 text-white dark:text-prime-text border border-slate-600 dark:border-prime-border focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-prime-accent text-base sm:text-lg shadow-sm"
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full mb-6 px-3 py-3 sm:px-4 rounded-xl bg-slate-700/80 dark:bg-prime-surface-2 text-white dark:text-prime-text border border-slate-600 dark:border-prime-border focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-prime-accent text-base sm:text-lg shadow-sm"
-          required
-        />
-        <button
-          type="submit"
-          className="w-full bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-700 hover:from-cyan-600 hover:to-blue-800 dark:bg-gradient-to-r dark:from-blue-400 dark:via-cyan-500 dark:to-blue-700 text-white py-3 rounded-xl font-semibold transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-400 text-base sm:text-lg shadow-md dark:shadow-cyan-500/30"
-        >
-          Login
-        </button>
-        <p className="text-purple-300 dark:text-prime-muted-2 mt-4 text-center text-sm sm:text-base">
-          Don't have an account?{" "}
-          <a href="/register" className="underline">
-            Register
+
+        <div className="space-y-6">
+          <div className="relative">
+            <label className="text-[10px] font-orbitron text-cyber-muted uppercase tracking-widest mb-1 block">USER_EMAIL_IDENT</label>
+            <input
+              type="email"
+              placeholder="e.g. operator@nexus.net"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full bg-cyber-bg/50 border border-cyber-border text-cyber-accent placeholder-cyber-muted/30 px-4 py-4 focus:outline-none focus:border-cyber-accent transition-colors font-cyber text-sm"
+              required
+            />
+          </div>
+
+          <div className="relative">
+            <label className="text-[10px] font-orbitron text-cyber-muted uppercase tracking-widest mb-1 block">ACCESS_KEY_ENCRYPT</label>
+            <input
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full bg-cyber-bg/50 border border-cyber-border text-cyber-accent placeholder-cyber-muted/30 px-4 py-4 focus:outline-none focus:border-cyber-accent transition-colors font-cyber text-sm"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="cyber-button w-full py-4 mt-4 font-bold tracking-[0.3em] group"
+          >
+            <span className="group-hover:animate-pulse">AUTHENTICATE</span>
+          </button>
+        </div>
+
+        <p className="text-cyber-muted mt-8 text-center text-[10px] font-orbitron tracking-widest uppercase">
+          NEW_USER?{" "}
+          <a href="/register" className="text-cyber-secondary hover:text-cyber-accent underline underline-offset-4 transition-colors">
+            CREATE_SEC_ID
           </a>
         </p>
       </form>
