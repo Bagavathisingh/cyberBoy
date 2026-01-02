@@ -5,20 +5,20 @@ import ConfirmModal from "../components/ConfirmModal";
 function Settings() {
   const navigate = useNavigate();
   const [theme, setTheme] = useState(
-    localStorage.getItem("cyberboy_theme") || "dark"
+    localStorage.getItem("cyberboy_theme") || "light"
   );
 
-  // Ensure theme class is set on <html> on mount and when theme changes
   useEffect(() => {
     document.documentElement.classList.remove("dark", "light");
     document.documentElement.classList.add(theme);
   }, [theme]);
+
   const [modalOpen, setModalOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
 
   const handleLogout = () => {
-    localStorage.removeItem("cyberboy_user");
+    localStorage.removeItem("user");
     setLogoutModalOpen(false);
     navigate("/login");
   };
@@ -31,7 +31,7 @@ function Settings() {
   const handleDeleteAccount = async () => {
     setDeleting(true);
     try {
-      const user = JSON.parse(localStorage.getItem("cyberboy_user"));
+      const user = JSON.parse(localStorage.getItem("user"));
       if (user && user._id) {
         const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
         await fetch(`${BACKEND_URL}/api/auth/delete/${user._id}`, {
@@ -39,7 +39,7 @@ function Settings() {
           headers: { "Content-Type": "application/json" },
         });
       }
-      localStorage.removeItem("cyberboy_user");
+      localStorage.removeItem("user");
       setModalOpen(false);
       navigate("/register");
     } catch (err) {
@@ -51,66 +51,78 @@ function Settings() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 dark:bg-gradient-to-br dark:from-prime-bg-gradient-from dark:to-prime-bg-gradient-to px-2 sm:px-0">
-      <div className="bg-slate-800/50 dark:bg-prime-surface p-4 sm:p-8 rounded-xl shadow-lg w-full max-w-md border border-purple-500/30 dark:border-prime-accent">
-        <h2 className="text-xl sm:text-2xl font-bold text-white dark:text-prime-text mb-6 text-center">
-          Settings
-        </h2>
-        <button
-          onClick={() => setLogoutModalOpen(true)}
-          className="w-full bg-purple-600 hover:bg-purple-700 dark:bg-prime-accent dark:hover:bg-prime-accent-dark text-white py-3 rounded-xl font-semibold mb-4 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-prime-accent text-base sm:text-lg"
-        >
-          Log Out
-        </button>
-        <div className="flex justify-between items-center mb-4">
-          <span className="text-white dark:text-prime-text">Theme:</span>
-          <div className="flex gap-2">
+    <div className="min-h-screen flex items-center justify-center bg-cyber-bg relative overflow-hidden px-4">
+      <div className="scanline" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(245,158,11,0.05)_0%,transparent_60%)] pointer-events-none" />
+
+      <div className="w-full max-w-md relative z-10">
+        <div className="text-center mb-10">
+          <h1 className="text-3xl font-black font-orbitron tracking-tighter text-white uppercase">
+            System_<span className="text-cyber-accent">Protocols</span>
+          </h1>
+          <p className="text-[9px] font-mono text-cyber-muted tracking-[0.5em] uppercase mt-2">Node_Configuration</p>
+        </div>
+
+        <div className="p-8 border border-cyber-border bg-white/[0.01] space-y-8">
+          <div className="space-y-4">
+            <h3 className="text-[10px] font-orbitron font-bold text-cyber-muted tracking-widest uppercase mb-4">Identity_Management</h3>
             <button
-              onClick={() => handleThemeChange("dark")}
-              className={`px-4 py-2 rounded-lg font-semibold transition-all duration-200 ${
-                theme === "dark"
-                  ? "bg-prime-accent text-white"
-                  : "bg-slate-700/80 dark:bg-prime-bg text-gray-300 dark:text-prime-muted hover:bg-purple-700 hover:text-white dark:hover:bg-prime-accent-dark"
-              }`}
+              onClick={() => setLogoutModalOpen(true)}
+              className="cyber-button w-full border-cyber-muted text-cyber-muted hover:border-cyber-accent hover:text-cyber-accent"
             >
-              Dark
+              Terminate_Session
             </button>
+          </div>
+
+          <div className="space-y-4 pt-4 border-t border-cyber-border">
+            <h3 className="text-[10px] font-orbitron font-bold text-cyber-muted tracking-widest uppercase mb-4">Theme_Override</h3>
+            <div className="grid grid-cols-2 gap-4">
+              <button
+                onClick={() => handleThemeChange("dark")}
+                className={`py-3 text-[10px] font-orbitron tracking-widest uppercase transition-all ${theme === "dark" ? "bg-cyber-accent text-cyber-bg font-black" : "border border-cyber-border text-cyber-muted"
+                  }`}
+              >
+                Dark_Mode
+              </button>
+              <button
+                onClick={() => handleThemeChange("light")}
+                className={`py-3 text-[10px] font-orbitron tracking-widest uppercase transition-all ${theme === "light" ? "bg-cyber-accent text-cyber-bg font-black" : "border border-cyber-border text-cyber-muted"
+                  }`}
+              >
+                Light_Mode
+              </button>
+            </div>
+          </div>
+
+          <div className="space-y-4 pt-4 border-t border-cyber-border">
+            <h3 className="text-[10px] font-orbitron font-bold text-red-500/50 tracking-widest uppercase mb-4">Danger_Zone</h3>
             <button
-              onClick={() => handleThemeChange("light")}
-              className={`px-4 py-2 rounded-lg font-semibold transition-all duration-200 ${
-                theme === "light"
-                  ? "bg-purple-600 text-white"
-                  : "bg-slate-700/80 text-gray-300 hover:bg-purple-700 hover:text-white"
-              }`}
+              onClick={() => setModalOpen(true)}
+              className="w-full py-4 border border-red-500/30 text-red-500/70 hover:bg-red-500/10 text-[10px] font-orbitron tracking-[0.3em] uppercase transition-all"
+              disabled={deleting}
             >
-              Light
+              Purge_Local_ID
             </button>
           </div>
         </div>
-        <button
-          onClick={() => setModalOpen(true)}
-          className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl font-semibold transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 dark:bg-prime-danger dark:hover:bg-red-700 text-base sm:text-lg"
-          disabled={deleting}
-        >
-          Delete Account
-        </button>
+
         <ConfirmModal
           open={logoutModalOpen}
           onClose={() => setLogoutModalOpen(false)}
           onConfirm={handleLogout}
-          title="Log Out"
-          message="Are you sure you want to log out?"
-          confirmText="Log Out"
-          confirmColor="bg-purple-600 hover:bg-purple-700"
+          title="TERMINATE_SESSION"
+          message="Are you sure you want to terminate the current identity session?"
+          confirmText="TERMINATE"
+          confirmColor="bg-cyber-accent text-cyber-bg"
         />
         <ConfirmModal
           open={modalOpen}
           onClose={() => setModalOpen(false)}
           onConfirm={handleDeleteAccount}
-          title="Delete Account"
-          message="Are you sure you want to delete your account? This action cannot be undone."
-          confirmText="Delete"
-          confirmColor="bg-red-600 hover:bg-red-700"
+          title="PURGE_IDENTITY"
+          message="This will permanently delete your node credentials from the local array. Continue?"
+          confirmText="PURGE"
+          confirmColor="bg-red-600 text-white"
         />
       </div>
     </div>

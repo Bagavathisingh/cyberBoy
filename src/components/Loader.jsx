@@ -3,12 +3,11 @@ import "./Loader.css";
 
 const Loader = () => (
   <div className="loader-overlay">
-    <div className="cyber-spinner">
-      <div className="spinner-ring"></div>
-      <div className="spinner-ring-inner"></div>
-      <div className="spinner-core"></div>
+    <div className="cyber-loader">
+      <div className="loader-square"></div>
+      <div className="loader-inner"></div>
     </div>
-    <div className="loader-text">Initializing_Node...</div>
+    <div className="loader-status tracking-[0.8em]">INITIALIZING_NODE</div>
   </div>
 );
 

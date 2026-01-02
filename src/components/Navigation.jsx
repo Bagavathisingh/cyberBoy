@@ -10,65 +10,53 @@ function Navigation() {
   };
 
   return (
-    <nav className="bg-cyber-bg/80 border-b border-cyber-border backdrop-blur-xl relative z-50">
-      <div className="max-w-7xl mx-auto px-4 py-3 sm:px-6 sm:py-5">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-0">
-          <div className="flex items-center gap-3 mb-2 sm:mb-0 w-full sm:w-auto justify-between">
+    <nav className="bg-cyber-bg/95 border-b border-cyber-border backdrop-blur-2xl relative z-50">
+      <div className="max-w-7xl mx-auto px-6 py-4">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-4 w-full sm:w-auto justify-between">
             <Link to="/" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 border border-cyber-accent bg-cyber-accent/10 flex items-center justify-center relative overflow-hidden group-hover:bg-cyber-accent/20 transition-colors" style={{ clipPath: 'polygon(15% 0, 100% 0, 100% 85%, 85% 100%, 0 100%, 0 15%)' }}>
-                <span className="text-cyber-accent font-orbitron font-bold text-sm cyber-text-glow">CB</span>
-                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-cyan-400/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+              <div className="w-8 h-8 border border-cyber-accent/40 bg-cyber-accent/5 flex items-center justify-center relative transition-all duration-500 group-hover:border-cyber-accent">
+                <div className="w-3 h-3 bg-cyber-accent animate-pulse-subtle" />
+                <div className="absolute -top-1 -right-1 w-2 h-2 border-t border-r border-cyber-accent opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
-              <div>
-                <span className="text-xl font-orbitron font-black tracking-tighter text-white group-hover:text-cyber-accent transition-colors">
-                  CYBER <span className="text-cyber-accent">BOY</span>
-                </span>
-                <div className="h-[2px] w-0 group-hover:w-full bg-cyber-accent transition-all duration-300" />
-              </div>
+              <span className="text-lg font-orbitron font-black tracking-widest text-cyber-text">
+                CYBER<span className="text-cyber-accent"> BOY</span>
+              </span>
             </Link>
             <button
-              className="sm:hidden p-2 ml-auto text-cyber-accent border border-cyber-accent/30 rounded-sm hover:bg-cyber-accent/10 transition-colors"
+              className="sm:hidden p-2 text-cyber-muted hover:text-cyber-accent transition-colors"
               onClick={() => setMenuOpen((open) => !open)}
               aria-label="Toggle menu"
             >
-              <svg
-                className="w-6 h-6 shadow-[0_0_5px_rgba(0,242,255,0.5)]"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-              >
-                {menuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
+              <div className="w-6 h-5 flex flex-col justify-between">
+                <span className={`h-px bg-current transition-all ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+                <span className={`h-px bg-current transition-all ${menuOpen ? 'opacity-0' : ''}`} />
+                <span className={`h-px bg-current transition-all ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+              </div>
             </button>
           </div>
           <div
-            className={`flex-col sm:flex-row gap-2 w-full sm:w-auto flex ${menuOpen ? "flex animate-in fade-in slide-in-from-top-4 duration-300" : "hidden"
-              } sm:flex items-center`}
+            className={`${menuOpen ? "flex animate-in fade-in slide-in-from-top-2" : "hidden"
+              } sm:flex flex-col sm:flex-row gap-6 items-center`}
           >
             {[
-              { to: "/", label: "H_INTERFACE" },
-              { to: "/dashboard", label: "D_ANALYSIS" },
-              { to: "/settings", label: "S_CONFIG" }
+              { to: "/", label: "Interface" },
+              { to: "/dashboard", label: "Analysis" },
+              { to: "/settings", label: "Protocol" }
             ].map((link) => (
               <Link
                 key={link.to}
                 to={link.to}
-                className={`px-4 py-2 text-[10px] font-orbitron tracking-[0.2em] transition-all duration-300 relative border border-transparent hover:border-cyber-accent/50 hover:bg-cyber-accent/5 ${isActive(link.to)
-                    ? "text-cyber-accent border-cyber-accent/30 bg-cyber-accent/10 cyber-text-glow"
+                className={`text-[10px] font-orbitron uppercase tracking-[0.3em] font-bold transition-all duration-300 relative ${isActive(link.to)
+                    ? "text-cyber-accent"
                     : "text-cyber-muted hover:text-cyber-text"
                   }`}
-                style={{ clipPath: 'polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%)' }}
                 onClick={() => setMenuOpen(false)}
               >
-                {isActive(link.to) && (
-                  <span className="absolute left-0 bottom-0 w-full h-[2px] bg-cyber-accent animate-pulse" />
-                )}
                 {link.label}
+                {isActive(link.to) && (
+                  <span className="absolute -bottom-2 left-0 w-full h-px bg-cyber-accent shadow-[0_0_10px_rgba(245,158,11,0.5)]" />
+                )}
               </Link>
             ))}
           </div>

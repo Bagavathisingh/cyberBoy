@@ -20,7 +20,7 @@ function Login() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Login failed");
-      localStorage.setItem("cyberboy_user", JSON.stringify(data.user));
+      localStorage.setItem("user", JSON.stringify(data.user));
       navigate("/");
     } catch (err) {
       setError(err.message);
@@ -28,70 +28,69 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-cyber-bg cyber-grid-bg px-4 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-cyber-bg relative overflow-hidden px-4">
       <div className="scanline" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(245,158,11,0.05)_0%,transparent_60%)] pointer-events-none" />
 
-      {/* Background Decor */}
-      <div className="absolute top-10 left-10 w-32 h-32 border border-cyber-accent/10 rounded-full animate-pulse" />
-      <div className="absolute bottom-10 right-10 w-64 h-64 border border-cyber-secondary/5 border-dashed rounded-full animate-spin [animation-duration:20s]" />
-
-      <form
-        onSubmit={handleSubmit}
-        className="cyber-box p-6 sm:p-10 w-full max-w-md relative z-10 before:content-['IDENT_REQ'] before:absolute before:-top-3 before:left-10 before:bg-cyber-bg before:px-2 before:text-[10px] before:text-cyber-accent before:font-orbitron before:tracking-[0.2em]"
-      >
-        <div className="text-center mb-8">
-          <h2 className="text-2xl sm:text-3xl font-black text-white font-orbitron tracking-tighter cyber-text-glow mb-2">
-            TERMINAL_LOGIN
-          </h2>
-          <div className="h-[2px] w-20 bg-cyber-accent mx-auto" />
+      <div className="w-full max-w-md relative z-10">
+        <div className="text-center mb-10">
+          <div className="inline-block p-4 border border-cyber-accent/30 bg-cyber-accent/5 rotate-45 mb-10">
+            <div className="w-6 h-6 bg-cyber-accent -rotate-45 shadow-[0_0_15px_rgba(245,158,11,0.5)]" />
+          </div>
+          <h1 className="text-3xl font-black font-orbitron tracking-tighter text-white uppercase">
+            Access_<span className="text-cyber-accent">Node</span>
+          </h1>
+          <p className="text-[9px] font-mono text-cyber-muted tracking-[0.5em] uppercase mt-2">Authentication_Required</p>
         </div>
 
-        {error && (
-          <div className="bg-cyber-secondary/10 border border-cyber-secondary/50 text-cyber-secondary px-4 py-3 mb-6 text-center text-xs font-mono animate-flicker">
-            [ERROR]: {error}
-          </div>
-        )}
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {error && (
+            <div className="p-4 bg-red-500/5 border border-red-500/20 text-red-400 text-[10px] font-mono uppercase tracking-widest text-center animate-pulse">
+              [ ACCESS_DENIED ]: {error}
+            </div>
+          )}
 
-        <div className="space-y-6">
-          <div className="relative">
-            <label className="text-[10px] font-orbitron text-cyber-muted uppercase tracking-widest mb-1 block">USER_EMAIL_IDENT</label>
-            <input
-              type="email"
-              placeholder="e.g. operator@nexus.net"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-cyber-bg/50 border border-cyber-border text-cyber-accent placeholder-cyber-muted/30 px-4 py-4 focus:outline-none focus:border-cyber-accent transition-colors font-cyber text-sm"
-              required
-            />
-          </div>
+          <div className="space-y-4">
+            <div className="relative group">
+              <label className="text-[9px] font-orbitron font-bold text-cyber-muted uppercase tracking-[0.3em] mb-2 block">Ident_ID</label>
+              <input
+                type="email"
+                placeholder="ADDRESS@SECURE.NET"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full bg-white/[0.02] border border-cyber-border px-5 py-4 text-sm font-cyber focus:outline-none focus:border-cyber-accent transition-all duration-500 placeholder-cyber-muted/20"
+                required
+              />
+            </div>
 
-          <div className="relative">
-            <label className="text-[10px] font-orbitron text-cyber-muted uppercase tracking-widest mb-1 block">ACCESS_KEY_ENCRYPT</label>
-            <input
-              type="password"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-cyber-bg/50 border border-cyber-border text-cyber-accent placeholder-cyber-muted/30 px-4 py-4 focus:outline-none focus:border-cyber-accent transition-colors font-cyber text-sm"
-              required
-            />
+            <div className="relative group">
+              <label className="text-[9px] font-orbitron font-bold text-cyber-muted uppercase tracking-[0.3em] mb-2 block">Access_Key</label>
+              <input
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full bg-white/[0.02] border border-cyber-border px-5 py-4 text-sm font-cyber focus:outline-none focus:border-cyber-accent transition-all duration-500 placeholder-cyber-muted/20"
+                required
+              />
+            </div>
           </div>
 
           <button
             type="submit"
-            className="cyber-button w-full py-4 mt-4 font-bold tracking-[0.3em] group"
+            className="cyber-button w-full py-5 font-black text-xs tracking-[0.4em]"
           >
-            <span className="group-hover:animate-pulse">AUTHENTICATE</span>
+            AUTHORIZE_LINK
           </button>
-        </div>
 
-        <p className="text-cyber-muted mt-8 text-center text-[10px] font-orbitron tracking-widest uppercase">
-          NEW_USER?{" "}
-          <a href="/register" className="text-cyber-secondary hover:text-cyber-accent underline underline-offset-4 transition-colors">
-            CREATE_SEC_ID
-          </a>
-        </p>
-      </form>
+          <p className="text-center text-[10px] font-orbitron text-cyber-muted uppercase tracking-widest mt-8">
+            New_Operator?{" "}
+            <a href="/register" className="text-cyber-accent hover:text-white transition-colors underline underline-offset-4">
+              Provision_ID
+            </a>
+          </p>
+        </form>
+      </div>
     </div>
   );
 }

@@ -30,77 +30,74 @@ function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-cyber-bg cyber-grid-bg px-4 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-cyber-bg relative overflow-hidden px-4">
       <div className="scanline" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_60%,rgba(245,158,11,0.05)_0%,transparent_60%)] pointer-events-none" />
 
-      {/* Background Decor */}
-      <div className="absolute top-20 right-20 w-40 h-40 border-2 border-cyber-accent/10 rotate-45 animate-pulse" />
-      <div className="absolute -bottom-10 -left-10 w-80 h-80 border border-cyber-secondary/5 rounded-full animate-pulse [animation-duration:15s]" />
-
-      <form
-        onSubmit={handleSubmit}
-        className="cyber-box p-6 sm:p-10 w-full max-w-md relative z-10 before:content-['SEC_REG'] before:absolute before:-top-3 before:left-10 before:bg-cyber-bg before:px-2 before:text-[10px] before:text-cyber-secondary before:font-orbitron before:tracking-[0.2em]"
-      >
-        <div className="text-center mb-8">
-          <h2 className="text-2xl sm:text-3xl font-black text-white font-orbitron tracking-tighter cyber-text-glow-alt mb-2" style={{ textShadow: '0 0 10px rgba(255, 0, 234, 0.5)' }}>
-            NEW_RECRUIT
-          </h2>
-          <div className="h-[2px] w-20 bg-cyber-secondary mx-auto" />
+      <div className="w-full max-w-md relative z-10">
+        <div className="text-center mb-10">
+          <div className="inline-block p-4 border border-cyber-accent/30 bg-cyber-accent/5 rotate-45 mb-10">
+            <div className="w-6 h-6 border-2 border-cyber-accent -rotate-45 shadow-[0_0_15px_rgba(245,158,11,0.5)]" />
+          </div>
+          <h1 className="text-3xl font-black font-orbitron tracking-tighter text-white uppercase">
+            Provision_<span className="text-cyber-accent">ID</span>
+          </h1>
+          <p className="text-[9px] font-mono text-cyber-muted tracking-[0.5em] uppercase mt-2">Neural_Node_Registration</p>
         </div>
 
-        {error && (
-          <div className="bg-cyber-secondary/10 border border-cyber-secondary/50 text-cyber-secondary px-4 py-3 mb-6 text-center text-xs font-mono animate-flicker">
-            [FATAL_EXCEPTION]: {error}
-          </div>
-        )}
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {error && (
+            <div className="p-4 bg-red-500/5 border border-red-500/20 text-red-400 text-[10px] font-mono uppercase tracking-widest text-center">
+              [ ERROR ]: {error}
+            </div>
+          )}
+          {success && (
+            <div className="p-4 bg-cyber-success/5 border border-cyber-success/20 text-cyber-success text-[10px] font-mono uppercase tracking-widest text-center">
+              [ SUCCESS ]: Node_Provisioned.
+            </div>
+          )}
 
-        {success && (
-          <div className="bg-cyber-success/10 border border-cyber-success/50 text-cyber-success px-4 py-3 mb-6 text-center text-xs font-mono">
-            [SUCCESS]: NODE_PROVISIONED. REDIRECTING...
-          </div>
-        )}
+          <div className="space-y-4">
+            <div className="group">
+              <label className="text-[9px] font-orbitron font-bold text-cyber-muted uppercase tracking-[0.3em] mb-2 block">Ident_Address</label>
+              <input
+                type="email"
+                placeholder="RECRUIT@SYSTEM.NET"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full bg-white/[0.02] border border-cyber-border px-5 py-4 text-sm font-cyber focus:outline-none focus:border-cyber-accent transition-all duration-500 placeholder-cyber-muted/20"
+                required
+              />
+            </div>
 
-        <div className="space-y-6">
-          <div className="relative">
-            <label className="text-[10px] font-orbitron text-cyber-muted uppercase tracking-widest mb-1 block">IDENT_ADDRESS</label>
-            <input
-              type="email"
-              placeholder="e.g. recruit_01@nexus.net"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-cyber-bg/50 border border-cyber-border text-cyber-accent placeholder-cyber-muted/30 px-4 py-4 focus:outline-none focus:border-cyber-secondary transition-colors font-cyber text-sm"
-              required
-            />
-          </div>
-
-          <div className="relative">
-            <label className="text-[10px] font-orbitron text-cyber-muted uppercase tracking-widest mb-1 block">NEW_ACCESS_KEY</label>
-            <input
-              type="password"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-cyber-bg/50 border border-cyber-border text-cyber-accent placeholder-cyber-muted/30 px-4 py-4 focus:outline-none focus:border-cyber-secondary transition-colors font-cyber text-sm"
-              required
-            />
+            <div className="group">
+              <label className="text-[9px] font-orbitron font-bold text-cyber-muted uppercase tracking-[0.3em] mb-2 block">Secure_Key</label>
+              <input
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full bg-white/[0.02] border border-cyber-border px-5 py-4 text-sm font-cyber focus:outline-none focus:border-cyber-accent transition-all duration-500 placeholder-cyber-muted/20"
+                required
+              />
+            </div>
           </div>
 
           <button
             type="submit"
-            className="cyber-button w-full py-4 mt-4 font-bold tracking-[0.3em] group border-cyber-secondary text-cyber-secondary hover:bg-cyber-secondary hover:text-white"
-            style={{ clipPath: 'polygon(0 0, 90% 0, 100% 30%, 100% 100%, 10% 100%, 0 70%)' }}
+            className="cyber-button w-full py-5 font-black text-xs tracking-[0.4em]"
           >
-            <span className="group-hover:animate-pulse">PROVISION_ID</span>
+            INITIALIZE_ID
           </button>
-        </div>
 
-        <p className="text-cyber-muted mt-8 text-center text-[10px] font-orbitron tracking-widest uppercase">
-          ALREADY_IDENTIFIED?{" "}
-          <a href="/login" className="text-cyber-accent hover:text-cyber-secondary underline underline-offset-4 transition-colors">
-            ACCESS_TERMINAL
-          </a>
-        </p>
-      </form>
+          <p className="text-center text-[10px] font-orbitron text-cyber-muted uppercase tracking-widest mt-8">
+            Already_Active?{" "}
+            <a href="/login" className="text-cyber-accent hover:text-white transition-colors underline underline-offset-4">
+              Access_Node
+            </a>
+          </p>
+        </form>
+      </div>
     </div>
   );
 }

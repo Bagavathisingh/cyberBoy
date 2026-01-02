@@ -22,6 +22,12 @@ function AppRoutes() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    const savedTheme = localStorage.getItem("cyberboy_theme") || "light";
+    document.documentElement.classList.remove("dark", "light");
+    document.documentElement.classList.add(savedTheme);
+  }, []);
+
+  useEffect(() => {
     const user = localStorage.getItem("cyberboy_user");
     const publicPaths = ["/login", "/register"];
     if (!user && !publicPaths.includes(location.pathname)) {
