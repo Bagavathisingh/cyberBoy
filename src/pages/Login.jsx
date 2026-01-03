@@ -7,11 +7,13 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    setLoading(true);
     try {
       const res = await fetch(`${BACKEND_URL}/api/auth/login`, {
         method: "POST",
@@ -20,10 +22,11 @@ function Login() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Login failed");
-      localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("cyberboy_user", JSON.stringify(data.user));
       navigate("/");
     } catch (err) {
       setError(err.message);
+      setLoading(false);
     }
   };
 
@@ -60,6 +63,7 @@ function Login() {
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full bg-white/[0.02] border border-cyber-border px-5 py-4 text-sm font-cyber focus:outline-none focus:border-cyber-accent transition-all duration-500 placeholder-cyber-muted/20"
                 required
+                disabled={loading}
               />
             </div>
 
@@ -72,15 +76,17 @@ function Login() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full bg-white/[0.02] border border-cyber-border px-5 py-4 text-sm font-cyber focus:outline-none focus:border-cyber-accent transition-all duration-500 placeholder-cyber-muted/20"
                 required
+                disabled={loading}
               />
             </div>
           </div>
 
           <button
             type="submit"
-            className="cyber-button w-full py-5 font-black text-xs tracking-[0.4em]"
+            disabled={loading}
+            className={`cyber-button w-full py-5 font-black text-xs tracking-[0.4em] ${loading ? "opacity-50 cursor-not-allowed animate-pulse" : ""}`}
           >
-            AUTHORIZE_LINK
+            {loading ? "AUTHENTICATING..." : "AUTHORIZE_LINK"}
           </button>
 
           <p className="text-center text-[10px] font-orbitron text-cyber-muted uppercase tracking-widest mt-8">

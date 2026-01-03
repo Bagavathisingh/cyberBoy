@@ -18,7 +18,7 @@ function Settings() {
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem("cyberboy_user");
     setLogoutModalOpen(false);
     navigate("/login");
   };
@@ -31,7 +31,7 @@ function Settings() {
   const handleDeleteAccount = async () => {
     setDeleting(true);
     try {
-      const user = JSON.parse(localStorage.getItem("user"));
+      const user = JSON.parse(localStorage.getItem("cyberboy_user"));
       if (user && user._id) {
         const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
         await fetch(`${BACKEND_URL}/api/auth/delete/${user._id}`, {
@@ -39,7 +39,7 @@ function Settings() {
           headers: { "Content-Type": "application/json" },
         });
       }
-      localStorage.removeItem("user");
+      localStorage.removeItem("cyberboy_user");
       setModalOpen(false);
       navigate("/register");
     } catch (err) {

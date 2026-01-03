@@ -37,7 +37,8 @@ function AppRoutes() {
       navigate("/", { replace: true });
     }
     setLoading(true);
-    const timeout = setTimeout(() => setLoading(false), 500);
+    setLoading(true);
+    const timeout = setTimeout(() => setLoading(false), 0);
     return () => clearTimeout(timeout);
   }, [location.pathname, navigate]);
 

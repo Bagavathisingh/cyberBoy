@@ -8,12 +8,14 @@ function Register() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
     setSuccess(false);
+    setLoading(true);
     try {
       const res = await fetch(`${BACKEND_URL}/api/auth/register`, {
         method: "POST",
@@ -26,8 +28,13 @@ function Register() {
       setTimeout(() => navigate("/login"), 1500);
     } catch (err) {
       setError(err.message);
+      setLoading(false);
     }
   };
+
+  // If we succeeded, we keep loading state (or just don't reset it) so the user doesn't resubmit
+  // But strictly 'loading' was for the fetch. 
+  // Let's rely on 'success' to disable button too.
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-cyber-bg relative overflow-hidden px-4">
@@ -52,8 +59,8 @@ function Register() {
             </div>
           )}
           {success && (
-            <div className="p-4 bg-cyber-success/5 border border-cyber-success/20 text-cyber-success text-[10px] font-mono uppercase tracking-widest text-center">
-              [ SUCCESS ]: Node_Provisioned.
+            <div className="p-4 bg-cyber-success/5 border border-cyber-success/20 text-cyber-success text-[10px] font-mono uppercase tracking-widest text-center animate-pulse">
+              [ SUCCESS ]: Node_Provisioned. Redirecting...
             </div>
           )}
 
@@ -67,6 +74,7 @@ function Register() {
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full bg-white/[0.02] border border-cyber-border px-5 py-4 text-sm font-cyber focus:outline-none focus:border-cyber-accent transition-all duration-500 placeholder-cyber-muted/20"
                 required
+                disabled={loading || success}
               />
             </div>
 
@@ -79,15 +87,17 @@ function Register() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full bg-white/[0.02] border border-cyber-border px-5 py-4 text-sm font-cyber focus:outline-none focus:border-cyber-accent transition-all duration-500 placeholder-cyber-muted/20"
                 required
+                disabled={loading || success}
               />
             </div>
           </div>
 
           <button
             type="submit"
-            className="cyber-button w-full py-5 font-black text-xs tracking-[0.4em]"
+            disabled={loading || success}
+            className={`cyber-button w-full py-5 font-black text-xs tracking-[0.4em] ${loading || success ? "opacity-50 cursor-not-allowed animate-pulse" : ""}`}
           >
-            INITIALIZE_ID
+            {loading ? "PROVISIONING..." : success ? "INITIALIZED" : "INITIALIZE_ID"}
           </button>
 
           <p className="text-center text-[10px] font-orbitron text-cyber-muted uppercase tracking-widest mt-8">
