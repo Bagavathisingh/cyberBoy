@@ -17,8 +17,22 @@ function Settings() {
   const [deleting, setDeleting] = useState(false);
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      const sessionId = localStorage.getItem("cyberboy_session_id");
+      if (sessionId) {
+        const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+        await fetch(`${BACKEND_URL}/api/sessions/${sessionId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ endedAt: new Date() }),
+        });
+      }
+    } catch (error) {
+      console.error("Failed to close session:", error);
+    }
     localStorage.removeItem("cyberboy_user");
+    localStorage.removeItem("cyberboy_session_id");
     setLogoutModalOpen(false);
     navigate("/login");
   };

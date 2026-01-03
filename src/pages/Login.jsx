@@ -22,7 +22,19 @@ function Login() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Login failed");
+
+      // Create Session
+      const sessionRes = await fetch(`${BACKEND_URL}/api/sessions`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: data.user._id }),
+      });
+      const sessionData = await sessionRes.json();
+
       localStorage.setItem("cyberboy_user", JSON.stringify(data.user));
+      if (sessionData._id) {
+        localStorage.setItem("cyberboy_session_id", sessionData._id);
+      }
       navigate("/");
     } catch (err) {
       setError(err.message);
