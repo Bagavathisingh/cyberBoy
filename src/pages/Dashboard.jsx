@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { getChatbotData, formatTimeAgo } from "../utils/chatbotData";
+import { Activity, Zap, Shield, Database, LayoutPanelLeft, ArrowUpRight } from "lucide-react";
 
 function Dashboard() {
   const [chatbotData, setChatbotData] = useState(getChatbotData());
@@ -23,97 +25,161 @@ function Dashboard() {
       : 100;
 
   const stats = [
-    { label: "Total Queries_Log", value: chatbotData.totalQueries.toLocaleString(), color: "text-cyber-accent" },
-    { label: "Neural_Messages", value: chatbotData.totalMessages.toLocaleString(), color: "text-cyber-text" },
-    { label: "Operator_Input", value: chatbotData.totalUserMessages.toLocaleString(), color: "text-cyber-text" },
-    { label: "Success_Coefficient", value: `${successRate}%`, color: "text-cyber-success" },
+    { label: "Total Uplinks", value: chatbotData.totalQueries.toLocaleString(), icon: <Shield className="w-5 h-5" />, color: "text-cyber-accent" },
+    { label: "Neural Traffic", value: chatbotData.totalMessages.toLocaleString(), icon: <Zap className="w-5 h-5" />, color: "text-white" },
+    { label: "Operator Input", value: chatbotData.totalUserMessages.toLocaleString(), icon: <Database className="w-5 h-5" />, color: "text-white" },
+    { label: "Accuracy", value: `${successRate}%`, icon: <Activity className="w-5 h-5" />, color: "text-cyber-success" },
   ];
 
-  const recentActivity = chatbotData.recentActivity.slice(0, 8);
+  const recentActivity = chatbotData.recentActivity.slice(0, 6);
 
   return (
-    <div className="min-h-screen bg-cyber-bg p-8 lg:p-12 relative overflow-hidden text-cyber-text">
-      <div className="scanline" />
+    <div className="min-h-screen bg-cyber-bg p-4 md:p-8 pt-24 md:pt-32 relative overflow-hidden text-cyber-text font-cyber">
+      {/* Background Atmosphere */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
+        <div className="absolute top-[-10%] right-[-10%] w-[60%] h-[60%] bg-cyber-accent/5 blur-[150px] rounded-full" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[60%] h-[60%] bg-cyber-secondary/5 blur-[150px] rounded-full" />
+      </div>
 
-      {/* Header Area */}
-      <div className="mb-16">
-        <div className="flex items-center gap-4 mb-3">
-          <div className="h-px w-12 bg-cyber-accent" />
-          <span className="text-[10px] font-orbitron font-black tracking-[0.5em] text-cyber-accent uppercase">Intelligence_Analysis</span>
+      <div className="max-w-[1400px] mx-auto relative z-10 space-y-12 md:space-y-24">
+        {/* Massive Zentry Hero Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 100 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="relative text-center md:text-left pt-12"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/5 bg-white/5 backdrop-blur-md mb-8">
+            <span className="w-1.5 h-1.5 rounded-full bg-cyber-accent animate-pulse" />
+            <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-cyber-muted">Node Status: Optimized</span>
+          </div>
+
+          <h1 className="zentry-title mb-6">
+            NEURAL <span className="special-font text-cyber-text">HUB</span><br />
+            <span className="cyber-gradient-text">TELEM</span>ETRY
+          </h1>
+
+          <p className="text-cyber-muted text-sm md:text-lg max-w-xl font-medium leading-relaxed mb-10">
+            Next-generation neural monitoring for the Radiant network.
+            Real-time synchronization across localized clusters and global intelligence nodes.
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
+            <button className="zentry-button">
+              Initialize Link
+            </button>
+            <button className="px-8 py-4 text-[10px] font-bold tracking-widest uppercase text-cyber-muted hover:text-cyber-text transition-colors border border-cyber-border rounded-full">
+              View Whitepaper
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Bento Grid Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          {stats.map((stat, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ delay: index * 0.1, duration: 0.5 }}
+              whileHover={{ rotateY: -5, rotateX: 2, scale: 1.02 }}
+              className="bento-card p-8 group h-full flex flex-col justify-between"
+            >
+              <div className="flex justify-between items-start mb-12">
+                <div className="p-3 rounded-2xl bg-white/5 border border-white/5 text-cyber-accent group-hover:scale-110 transition-transform">
+                  {stat.icon}
+                </div>
+                <ArrowUpRight className="w-4 h-4 text-cyber-text/20 group-hover:text-cyber-accent transition-colors" />
+              </div>
+              <div>
+                <p className="text-cyber-muted text-[10px] font-bold uppercase tracking-widest mb-2">
+                  {stat.label}
+                </p>
+                <p className={`text-4xl font-black font-zentry tracking-tight ${stat.color}`}>
+                  {stat.value}
+                </p>
+              </div>
+            </motion.div>
+          ))}
         </div>
-        <h1 className="text-4xl lg:text-6xl font-black text-cyber-text font-orbitron tracking-tighter">
-          SYSTEM_STATISTICS<span className="text-cyber-accent">.</span>
-        </h1>
-      </div>
 
-      {/* Primary Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-cyber-border border border-cyber-border mb-16">
-        {stats.map((stat, index) => (
-          <div key={index} className="bg-cyber-bg p-8 group hover:bg-black transition-all duration-500 cursor-default">
-            <p className="text-cyber-muted group-hover:text-white/70 text-[10px] font-orbitron uppercase tracking-widest mb-6 transition-colors">
-              {stat.label}
-            </p>
-            <p className={`text-4xl font-bold font-cyber tracking-tighter transition-colors group-hover:text-white ${stat.color}`}>
-              {stat.value}
-            </p>
-          </div>
-        ))}
-      </div>
+        {/* Dimensional Feature Sections */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+          {/* Main Activity Log - Bento Span */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            className="md:col-span-8 bento-card p-8 md:p-12"
+          >
+            <div className="flex items-center justify-between mb-12">
+              <h2 className="text-2xl font-black">TELEMETRY_STREAM</h2>
+              <div className="flex gap-2">
+                <div className="w-2 h-2 rounded-full bg-white/10" />
+                <div className="w-2 h-2 rounded-full bg-white/10" />
+                <div className="w-2 h-2 rounded-full bg-cyber-accent animate-pulse" />
+              </div>
+            </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-        {/* Activity Log */}
-        <div className="lg:col-span-2 space-y-8">
-          <div className="flex items-center justify-between">
-            <h2 className="text-sm font-orbitron font-black tracking-widest uppercase">Telemetry_Stream</h2>
-            <div className="text-[9px] font-mono text-cyber-muted">[ RECORDS: {recentActivity.length} ]</div>
-          </div>
-
-          <div className="space-y-4">
-            {recentActivity.length > 0 ? (
-              recentActivity.map((activity) => (
-                <div key={activity.id} className="group flex items-center justify-between p-5 border border-cyber-border hover:border-cyber-accent/30 bg-white/[0.01] transition-all duration-500">
+            <div className="space-y-4">
+              {recentActivity.map((activity) => (
+                <div key={activity.id} className="group flex items-center justify-between p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all">
                   <div className="flex items-center gap-6">
-                    <div className={`w-1 h-6 ${activity.type === 'error' ? 'bg-red-500' : 'bg-cyber-accent/40 group-hover:bg-cyber-accent transition-colors'}`} />
+                    <div className={`w-1 h-8 rounded-full ${activity.type === 'error' ? 'bg-red-500 shadow-[0_0_15px_rgba(239,68,68,0.5)]' : 'bg-cyber-accent shadow-[0_0_15px_rgba(237,255,102,0.4)]'}`} />
                     <div>
-                      <span className="text-xs font-cyber block mb-1">{activity.action}</span>
-                      <span className="text-[8px] font-mono text-cyber-muted uppercase tracking-widest">Type: {activity.type}</span>
+                      <span className="text-sm font-bold text-white block mb-0.5 uppercase tracking-wide">{activity.action}</span>
+                      <span className="text-[9px] font-bold text-cyber-muted uppercase tracking-[0.2em]">{activity.type} // LOG_ID: {activity.id.toString().slice(-4)}</span>
                     </div>
                   </div>
-                  <span className="text-[9px] font-mono text-cyber-muted pr-4">{formatTimeAgo(activity.time)}</span>
+                  <span className="text-[10px] font-bold text-cyber-muted bg-white/5 px-3 py-1 rounded-full">{formatTimeAgo(activity.time)}</span>
                 </div>
-              ))
-            ) : (
-              <div className="py-20 text-center border border-dashed border-cyber-border">
-                <p className="text-[10px] uppercase font-orbitron tracking-widest text-cyber-muted">No_Telemetry_Available</p>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Side Info Cards */}
+          <div className="md:col-span-4 space-y-4">
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              className="bento-card p-8 bg-cyber-secondary shadow-[inset_0_0_80px_rgba(255,255,255,0.1)] h-[280px] flex flex-col justify-between"
+            >
+              <LayoutPanelLeft className="w-10 h-10 text-white/60" />
+              <div>
+                <h3 className="text-2xl font-black mb-2 text-white">INTERFACE_CONFIG</h3>
+                <p className="text-white/80 text-xs font-medium leading-relaxed">
+                  Customize your neural workspace with dynamic widgets and holographic overlays.
+                </p>
               </div>
-            )}
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.1 }}
+              className="bento-card p-1 bg-gradient-to-br from-cyber-accent/20 to-transparent"
+            >
+              <div className="bg-[#0A0A0A] rounded-[1.8rem] p-8 h-full border border-white/5">
+                <div className="flex items-center gap-2 mb-6">
+                  <div className="w-2 h-2 rounded-full bg-cyber-accent" />
+                  <span className="text-[10px] font-bold text-cyber-accent uppercase tracking-widest">Active Neural Link</span>
+                </div>
+                <p className="text-sm font-medium italic text-cyber-muted leading-relaxed">
+                  "Core logic processing at 98.4% efficiency. Sub-system RX-7 reporting nominal values. Ready for transmission."
+                </p>
+              </div>
+            </motion.div>
           </div>
         </div>
 
-        {/* Quick Actions & Protocols */}
-        <div className="space-y-8">
-          <div className="p-8 border border-cyber-border bg-white/[0.01]">
-            <h3 className="text-xs font-orbitron font-black tracking-widest uppercase mb-8 border-b border-cyber-border pb-4">Exec_Protocols</h3>
-            <div className="space-y-4">
-              <a href="/" className="cyber-button w-full border-cyber-muted text-cyber-muted hover:border-cyber-accent hover:text-cyber-accent">Initialize_Interface</a>
-              <button className="cyber-button w-full border-cyber-muted text-cyber-muted hover:border-cyber-accent hover:text-cyber-accent">Refresh_Neural_Buffer</button>
-              <button className="w-full text-center text-[10px] font-orbitron tracking-widest text-cyber-muted hover:text-white transition-colors uppercase pt-4">Emergency_Shutdown</button>
-            </div>
+        {/* Footer Accent */}
+        <div className="pt-24 pb-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
+          <div className="flex items-center gap-4 grayscale opacity-20 hover:grayscale-0 hover:opacity-100 transition-all duration-700">
+            <img src="/logo.png" alt="Zentry Style" className="w-8 h-8" />
+            <span className="font-zentry text-xl font-black tracking-tighter">CYBERBOY</span>
           </div>
-
-          <div className="p-8 border border-cyber-border bg-cyber-accent/5">
-            <h3 className="text-xs font-orbitron font-black tracking-widest uppercase mb-4 text-cyber-accent">Core_Logic_Node</h3>
-            <p className="text-[10px] leading-relaxed text-cyber-muted font-mono mb-6">
-              Neural weights synchronized.
-              Local buffer verified.
-              Node Node_AP_SO_1 online.
-            </p>
-            <div className="flex gap-2">
-              <div className="w-2 h-2 rounded-full bg-cyber-success animate-pulse" />
-              <div className="w-2 h-2 rounded-full bg-cyber-success animate-pulse [animation-delay:0.2s]" />
-              <div className="w-2 h-2 rounded-full bg-cyber-success animate-pulse [animation-delay:0.4s]" />
-            </div>
-          </div>
+          <p className="text-[10px] font-bold tracking-[0.5em] text-white/10 uppercase">
+            Radiant Protocol v2.4.0 // All Rights Reserved
+          </p>
         </div>
       </div>
     </div>
@@ -121,3 +187,5 @@ function Dashboard() {
 }
 
 export default Dashboard;
+
+

@@ -1,11 +1,22 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import {
+  LogOut,
+  Trash2,
+  Moon,
+  Sun,
+  Settings as SettingsIcon,
+  ShieldAlert,
+  Cpu,
+  Fingerprint
+} from "lucide-react";
 import ConfirmModal from "../components/ConfirmModal";
 
 function Settings() {
   const navigate = useNavigate();
   const [theme, setTheme] = useState(
-    localStorage.getItem("cyberboy_theme") || "light"
+    localStorage.getItem("cyberboy_theme") || "dark"
   );
 
   useEffect(() => {
@@ -65,82 +76,147 @@ function Settings() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-cyber-bg relative overflow-hidden px-4">
-      <div className="scanline" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(245,158,11,0.05)_0%,transparent_60%)] pointer-events-none" />
+    <div className="min-h-screen bg-black text-white font-cyber overflow-hidden p-6 md:p-12 pt-32 relative">
+      {/* Background Atmosphere */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-cyber-accent/5 blur-[250px] rounded-full" />
+      </div>
 
-      <div className="w-full max-w-md relative z-10">
-        <div className="text-center mb-10">
-          <h1 className="text-3xl font-black font-orbitron tracking-tighter text-white uppercase">
-            System_<span className="text-cyber-accent">Protocols</span>
+      <div className="max-w-[1400px] mx-auto relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-20 text-center md:text-left"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-3xl">
+            <SettingsIcon className="w-3.5 h-3.5 text-cyber-accent" />
+            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/60">Core Array Config</span>
+          </div>
+          <h1 className="zentry-title mb-6">
+            CORE <br />
+            <span className="special-font text-white">PROTOCOL</span>
           </h1>
-          <p className="text-[9px] font-mono text-cyber-muted tracking-[0.5em] uppercase mt-2">Node_Configuration</p>
-        </div>
+        </motion.div>
 
-        <div className="p-8 border border-cyber-border bg-white/[0.01] space-y-8">
-          <div className="space-y-4">
-            <h3 className="text-[10px] font-orbitron font-bold text-cyber-muted tracking-widest uppercase mb-4">Identity_Management</h3>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Identity Section */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.1 }}
+            className="bento-card p-10 flex flex-col justify-between"
+          >
+            <div>
+              <div className="w-14 h-14 bg-white/5 rounded-3xl flex items-center justify-center mb-10 group-hover:rotate-12 transition-transform">
+                <Fingerprint className="w-8 h-8 text-white/40" />
+              </div>
+              <h2 className="text-2xl font-black font-zentry uppercase italic mb-4">Identity</h2>
+              <p className="text-cyber-muted text-[11px] font-bold uppercase tracking-widest leading-relaxed mb-12">
+                Manage your neural identifier and active transmission sessions.
+              </p>
+            </div>
+
             <button
               onClick={() => setLogoutModalOpen(true)}
-              className="cyber-button w-full border-cyber-muted text-cyber-muted hover:border-cyber-accent hover:text-cyber-accent"
+              className="zentry-button w-full flex items-center justify-center gap-3"
             >
-              Terminate_Session
+              <LogOut size={16} />
+              <span>Terminate Session</span>
             </button>
-          </div>
+          </motion.div>
 
-          <div className="space-y-4 pt-4 border-t border-cyber-border">
-            <h3 className="text-[10px] font-orbitron font-bold text-cyber-muted tracking-widest uppercase mb-4">Theme_Override</h3>
-            <div className="grid grid-cols-2 gap-4">
+          {/* Interface Section */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2 }}
+            className="bento-card p-10 flex flex-col justify-between"
+          >
+            <div>
+              <div className="w-14 h-14 bg-white/5 rounded-3xl flex items-center justify-center mb-10">
+                <Cpu className="w-8 h-8 text-cyber-accent" />
+              </div>
+              <h2 className="text-2xl font-black font-zentry uppercase italic mb-4">Interface</h2>
+              <p className="text-cyber-muted text-[11px] font-bold uppercase tracking-widest leading-relaxed mb-12">
+                Customize the visual frequency of the neural uplink interface.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
               <button
                 onClick={() => handleThemeChange("dark")}
-                className={`py-3 text-[10px] font-orbitron tracking-widest uppercase transition-all ${theme === "dark" ? "bg-cyber-accent text-cyber-bg font-black" : "border border-cyber-border text-cyber-muted"
+                className={`p-5 rounded-2xl flex flex-col items-center gap-4 transition-all border ${theme === 'dark'
+                    ? 'bg-cyber-accent border-cyber-accent text-black shadow-[0_0_30px_rgba(237,255,102,0.2)]'
+                    : 'bg-white/5 border-white/5 text-white/40 hover:border-white/20'
                   }`}
               >
-                Dark_Mode
+                <Moon size={20} />
+                <span className="text-[10px] font-black uppercase tracking-widest">Dark</span>
               </button>
               <button
                 onClick={() => handleThemeChange("light")}
-                className={`py-3 text-[10px] font-orbitron tracking-widest uppercase transition-all ${theme === "light" ? "bg-cyber-accent text-cyber-bg font-black" : "border border-cyber-border text-cyber-muted"
+                className={`p-5 rounded-2xl flex flex-col items-center gap-4 transition-all border ${theme === 'light'
+                    ? 'bg-cyber-accent border-cyber-accent text-black shadow-[0_0_30px_rgba(237,255,102,0.2)]'
+                    : 'bg-white/5 border-white/5 text-white/40 hover:border-white/20'
                   }`}
               >
-                Light_Mode
+                <Sun size={20} />
+                <span className="text-[10px] font-black uppercase tracking-widest">Light</span>
               </button>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="space-y-4 pt-4 border-t border-cyber-border">
-            <h3 className="text-[10px] font-orbitron font-bold text-red-500/50 tracking-widest uppercase mb-4">Danger_Zone</h3>
+          {/* Danger Zone */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3 }}
+            whileHover={{ rotateY: 5 }}
+            className="bento-card p-10 border-red-500/20 bg-red-500/[0.02] flex flex-col justify-between"
+          >
+            <div>
+              <div className="w-14 h-14 bg-red-500/10 rounded-3xl flex items-center justify-center mb-10">
+                <ShieldAlert className="w-8 h-8 text-red-500" />
+              </div>
+              <h2 className="text-2xl font-black font-zentry uppercase italic mb-4 text-red-500">Purge</h2>
+              <p className="text-red-900/40 text-[11px] font-bold uppercase tracking-widest leading-relaxed mb-12">
+                Permanently eliminate all neural history and stored identity metrics.
+              </p>
+            </div>
+
             <button
               onClick={() => setModalOpen(true)}
-              className="w-full py-4 border border-red-500/30 text-red-500/70 hover:bg-red-500/10 text-[10px] font-orbitron tracking-[0.3em] uppercase transition-all"
               disabled={deleting}
+              className="w-full py-5 rounded-full border border-red-500/30 text-red-500 text-[10px] font-black uppercase tracking-[0.3em] hover:bg-red-500 hover:text-white transition-all disabled:opacity-30"
             >
-              Purge_Local_ID
+              {deleting ? "PURGING..." : "EXECUTE_PURGE"}
             </button>
-          </div>
+          </motion.div>
         </div>
-
-        <ConfirmModal
-          open={logoutModalOpen}
-          onClose={() => setLogoutModalOpen(false)}
-          onConfirm={handleLogout}
-          title="TERMINATE_SESSION"
-          message="Are you sure you want to terminate the current identity session?"
-          confirmText="TERMINATE"
-          confirmColor="bg-cyber-accent text-cyber-bg"
-        />
-        <ConfirmModal
-          open={modalOpen}
-          onClose={() => setModalOpen(false)}
-          onConfirm={handleDeleteAccount}
-          title="PURGE_IDENTITY"
-          message="This will permanently delete your node credentials from the local array. Continue?"
-          confirmText="PURGE"
-          confirmColor="bg-red-600 text-white"
-        />
       </div>
+
+      <ConfirmModal
+        open={logoutModalOpen}
+        onClose={() => setLogoutModalOpen(false)}
+        onConfirm={handleLogout}
+        title="TERMINATE SESSION"
+        message="Are you sure you want to terminate the current identity session? All active neural links will be closed."
+        confirmText="TERMINATE"
+        confirmColor="bg-cyber-accent text-cyber-bg"
+      />
+      <ConfirmModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onConfirm={handleDeleteAccount}
+        title="PURGE IDENTITY"
+        message="This action is irreversible. It will permanently delete your node credentials from the local array. Continue?"
+        confirmText="PURGE NOW"
+        confirmColor="bg-red-600 text-white"
+      />
     </div>
   );
 }
 
 export default Settings;
+
+

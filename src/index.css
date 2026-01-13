@@ -1,7 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@600;700;800;900&display=swap');
 @import "tailwindcss";
 
 @theme {
-  /* Obsidian & Emerald Premium Cyber Theme - Dynamic Variables */
+  /* Zentry Inspired Theme - High Contrast & Immersive */
   --color-cyber-bg: var(--cyber-bg);
   --color-cyber-panel: var(--cyber-panel);
   --color-cyber-accent: var(--cyber-accent);
@@ -12,137 +13,213 @@
   --color-cyber-muted: var(--cyber-muted);
 
   /* Fonts */
-  --font-cyber: "Fira Code", monospace;
-  --font-orbitron: "Outfit", sans-serif;
+  --font-cyber: "Inter", sans-serif;
+  --font-zentry: "Outfit", sans-serif;
 
-  /* Animations */
-  @keyframes scanline {
+  /* Custom Animations */
+  @keyframes bento-hover {
     0% {
-      transform: translateY(-100%);
+      transform: scale(1) perspective(1000px) rotateX(0deg);
     }
 
     100% {
-      transform: translateY(100vh);
+      transform: scale(1.02) perspective(1000px) rotateX(2deg);
     }
   }
 
-  @keyframes pulse-subtle {
-    0% {
-      opacity: 0.4;
-      transform: scale(0.98);
-    }
+  @keyframes float-subtle {
 
+    0%,
     100% {
-      opacity: 0.7;
-      transform: scale(1.02);
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-8px);
     }
   }
 
-  --animate-scanline: scanline 10s linear infinite;
-  --animate-pulse-subtle: pulse-subtle 2s ease-in-out infinite alternate;
+  --animate-float-subtle: float-subtle 4s ease-in-out infinite;
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300..900&family=Fira+Code:wght@300..700&display=swap');
 
 :root {
-  /* GLASS WHITE & EMERALD (DEFAULT LIGHT MODE) */
-  --cyber-bg: #ffffff;
-  --cyber-panel: rgba(255, 255, 255, 0.85);
-  --cyber-accent: #10b981;
-  /* Premium Light Green */
-  --cyber-secondary: #059669;
-  --cyber-success: #10b981;
-  --cyber-border: #000000;
-  --cyber-text: #000000;
-  --cyber-muted: #475569;
-  --grid-opacity: rgba(0, 0, 0, 0.08);
-  --accent-glow: rgba(16, 185, 129, 0.05);
+  /* DARK MODE (Default) */
+  --cyber-bg: #010101;
+  --cyber-panel: rgba(10, 10, 10, 0.7);
+  --cyber-accent: #EDFF66;
+  --cyber-secondary: #5724FF;
+  --cyber-success: #00FFB2;
+  --cyber-border: rgba(255, 255, 255, 0.08);
+  --cyber-text: #FFFFFF;
+  --cyber-muted: #A0A0A0;
+  /* Increased brightness for better dark mode visibility */
+  --grid-opacity: rgba(255, 255, 255, 0.02);
 }
 
-.dark {
-  /* MIDNIGHT OBSIDIAN & EMBER */
-  --cyber-bg: #0a0a0b;
-  --cyber-panel: rgba(18, 18, 20, 0.85);
-  --cyber-accent: #f59e0b;
-  /* Golden Ember */
-  --cyber-secondary: #d97706;
-  --cyber-success: #10b981;
-  --cyber-border: #27272a;
-  --cyber-text: #f4f4f5;
-  --cyber-muted: #71717a;
-  --grid-opacity: rgba(255, 255, 255, 0.02);
-  --accent-glow: rgba(245, 158, 11, 0.03);
+.light {
+  /* LIGHT MODE Overrides */
+  --cyber-bg: #F8F9FA;
+  --cyber-panel: rgba(255, 255, 255, 0.8);
+  --cyber-accent: #EDFF66;
+  --cyber-secondary: #3D1AB8;
+  /* Slightly darker purple for contrast */
+  --cyber-success: #059669;
+  --cyber-border: rgba(0, 0, 0, 0.1);
+  --cyber-text: #050505;
+  --cyber-muted: #666666;
 }
 
 @layer base {
   body {
-    @apply bg-cyber-bg text-cyber-text font-cyber overflow-x-hidden antialiased transition-colors duration-500;
+    @apply bg-cyber-bg text-cyber-text font-cyber overflow-x-hidden antialiased;
+    min-height: 100vh;
     background-image:
-      radial-gradient(circle at 50% 50%, var(--accent-glow) 0%, transparent 50%),
-      linear-gradient(var(--grid-opacity) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid-opacity) 1px, transparent 1px);
-    background-size: 100% 100%, 40px 40px, 40px 40px;
+      radial-gradient(circle at 50% -20%, rgba(237, 255, 102, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 0% 100%, rgba(87, 36, 255, 0.03) 0%, transparent 40%);
+    transition: background-color 0.5s ease, color 0.5s ease;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-zentry uppercase tracking-tighter;
   }
 }
 
 @layer components {
-  .scanline {
-    width: 100%;
-    height: 100px;
-    z-index: 50;
-    background: linear-gradient(to bottom, transparent, var(--accent-glow), transparent);
-    position: fixed;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    animation: scanline 10s linear infinite;
+
+  /* Massive Zentry Typography */
+  .zentry-title {
+    @apply leading-[0.85] font-black uppercase tracking-tighter;
+    font-size: clamp(3rem, 10vw, 8rem);
+    font-family: 'Outfit', sans-serif;
   }
 
-  .cyber-box {
-    @apply border border-cyber-border bg-cyber-panel backdrop-blur-2xl relative overflow-hidden transition-all duration-300;
+  /* Bento Box Architecture */
+  .bento-card {
+    @apply relative overflow-hidden rounded-[2rem] border border-cyber-border backdrop-blur-3xl transition-all duration-500 bg-white/[0.03];
   }
 
-  :root .cyber-box {
-    box-shadow: 0 10px 40px -15px rgba(0, 0, 0, 0.05);
+  .light .bento-card {
+    @apply bg-black/[0.02] border-black/10;
   }
 
-  .dark .cyber-box {
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  .bento-card:hover {
+    @apply border-white/20 bg-white/[0.05];
+    transform: perspective(2000px) rotateY(-2deg) rotateX(1deg);
   }
 
-  .cyber-button {
-    @apply px-8 py-3 bg-cyber-accent/10 border border-cyber-accent/30 text-cyber-accent font-orbitron text-xs tracking-[0.2em] uppercase transition-all duration-500 relative overflow-hidden flex items-center justify-center gap-2;
+  .light .bento-card:hover {
+    @apply border-black/20 bg-black/5;
   }
 
-  .cyber-button:hover {
-    @apply bg-cyber-accent text-white border-cyber-accent;
+  /* Portal Effect Buttons */
+  .zentry-button {
+    @apply relative px-8 py-4 bg-cyber-accent text-black font-black uppercase tracking-widest text-sm rounded-full overflow-hidden transition-all duration-300 active:scale-95;
+    box-shadow: 0 0 40px rgba(237, 255, 102, 0.15);
   }
 
-  :root .cyber-button:hover {
-    background-color: #000000;
-    color: #10b981;
-    border-color: #000000;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  .zentry-button::after {
+    content: '';
+    @apply absolute inset-0 bg-white/20 translate-y-full transition-transform duration-300;
   }
 
-  .dark .cyber-button:hover {
-    @apply text-cyber-bg;
-    box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+  .zentry-button:hover::after {
+    @apply translate-y-0;
   }
 
-  .cyber-text-glow {
-    text-shadow: 0 0 15px var(--accent-glow);
+  /* Immersive Masking Utility */
+  .mask-clip-path {
+    clip-path: polygon(0% 0%, 100% 0%, 95% 100%, 5% 100%);
   }
 
-  ::-webkit-scrollbar {
-    width: 4px;
+  .cyber-gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-cyber-accent via-white to-cyber-secondary font-black;
   }
 
-  ::-webkit-scrollbar-track {
-    background: transparent;
+  .light .cyber-gradient-text {
+    @apply via-black/80;
   }
 
-  ::-webkit-scrollbar-thumb {
-    @apply bg-cyber-border rounded-full hover:bg-cyber-accent;
+  .special-font {
+    @apply font-zentry italic;
+    font-weight: 900;
   }
+
+  /* Markdown Content Visibility */
+  .markdown-content {
+    @apply text-inherit opacity-90;
+    line-height: 1.6;
+    word-break: break-word;
+  }
+
+  .markdown-content h1 {
+    @apply text-2xl font-black mb-4 mt-2 text-cyber-accent;
+  }
+
+  .markdown-content h2 {
+    @apply text-xl font-black mb-3 mt-2 text-cyber-accent;
+  }
+
+  .markdown-content h3 {
+    @apply text-lg font-black mb-2 mt-2 text-cyber-accent;
+  }
+
+  .markdown-content p {
+    @apply mb-4 last:mb-0;
+  }
+
+  .markdown-content strong {
+    @apply font-black text-cyber-accent;
+  }
+
+  .markdown-content ul {
+    @apply list-disc pl-6 mb-4 space-y-1;
+  }
+
+  .markdown-content ol {
+    @apply list-decimal pl-6 mb-4 space-y-1;
+  }
+
+  .markdown-content li {
+    @apply pl-1;
+  }
+
+  .markdown-content li::marker {
+    @apply text-cyber-accent font-black;
+  }
+
+  .markdown-content code {
+    @apply px-1.5 py-0.5 rounded bg-white/10 font-mono text-[10px] text-cyber-accent border border-white/5;
+  }
+
+  .light .markdown-content code {
+    @apply bg-black/5 border-black/5 text-cyber-secondary;
+  }
+
+  .markdown-content pre {
+    @apply p-4 rounded-2xl bg-black/40 border border-white/5 mb-4 overflow-x-auto font-mono text-xs;
+  }
+
+  .markdown-content pre code {
+    @apply p-0 bg-transparent border-none text-cyber-text;
+  }
+
+  .markdown-content blockquote {
+    @apply border-l-4 border-cyber-accent pl-4 italic opacity-70 mb-4;
+  }
+
+
+  /* Transition Overlays */
+  .zentry-overlay {
+    @apply absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-cyber-accent/40 rounded-full;
 }

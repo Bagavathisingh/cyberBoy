@@ -1,89 +1,93 @@
 .loader-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(10, 10, 11, 0.98);
-  backdrop-filter: blur(20px);
+  inset: 0;
+  background: #010101;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
   flex-direction: column;
-  gap: 32px;
+  gap: 40px;
 }
 
 .cyber-loader {
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
   position: relative;
+  perspective: 1000px;
 }
 
 .loader-square {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  border: 1px solid #f59e0b;
-  animation: square-rotate 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+  inset: 0;
+  border: 1px solid #EDFF66;
+  border-radius: 2rem;
+  box-shadow: 0 0 30px rgba(237, 255, 102, 0.1);
+  animation: portal-rotate 3s cubic-bezier(0.22, 1, 0.36, 1) infinite;
 }
 
 .loader-inner {
   position: absolute;
-  top: 25%;
-  left: 25%;
-  width: 50%;
-  height: 50%;
-  background: #f59e0b;
-  opacity: 0.2;
-  animation: square-fill 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+  inset: 30%;
+  background: #EDFF66;
+  border-radius: 1rem;
+  box-shadow: 0 0 20px rgba(237, 255, 102, 0.3);
+  animation: pulse-gate 1.5s ease-in-out infinite;
 }
 
 .loader-status {
   font-family: 'Outfit', sans-serif;
-  color: #f59e0b;
+  color: #EDFF66;
   font-size: 10px;
-  letter-spacing: 0.5em;
+  letter-spacing: 0.6em;
   text-transform: uppercase;
   font-weight: 900;
   opacity: 0.6;
+  animation: reveal-text 2s ease-in-out infinite;
 }
 
-@keyframes square-rotate {
+@keyframes portal-rotate {
   0% {
-    transform: rotate(0deg);
-  }
-
-  25% {
-    transform: rotate(90deg);
+    transform: rotateX(0deg) rotateY(0deg) scale(1);
+    border-radius: 2rem;
   }
 
   50% {
-    transform: rotate(180deg);
-  }
-
-  75% {
-    transform: rotate(270deg);
+    transform: rotateX(180deg) rotateY(90deg) scale(0.8);
+    border-radius: 50%;
+    border-color: #5724FF;
   }
 
   100% {
-    transform: rotate(360deg);
+    transform: rotateX(360deg) rotateY(180deg) scale(1);
+    border-radius: 2rem;
   }
 }
 
-@keyframes square-fill {
-  0% {
-    transform: scale(0);
-    opacity: 0;
+@keyframes pulse-gate {
+
+  0%,
+  100% {
+    transform: scale(0.5);
+    opacity: 0.2;
   }
 
   50% {
-    transform: scale(1.5);
-    opacity: 0.3;
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+@keyframes reveal-text {
+
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: translateY(0);
   }
 
-  100% {
-    transform: scale(0);
-    opacity: 0;
+  50% {
+    opacity: 0.8;
+    transform: translateY(-2px);
   }
 }

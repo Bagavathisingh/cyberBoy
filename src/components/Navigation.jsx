@@ -1,66 +1,110 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X, Rocket, Terminal, Settings as SettingsIcon, LayoutGrid } from "lucide-react";
 
 function Navigation() {
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const isActive = (path) => {
-    return location.pathname === path;
-  };
+  const isActive = (path) => location.pathname === path;
+
+  const links = [
+    { to: "/", label: "Neural", icon: <Terminal size={14} /> },
+    { to: "/dashboard", label: "Analytics", icon: <LayoutGrid size={14} /> },
+    { to: "/settings", label: "Core", icon: <SettingsIcon size={14} /> }
+  ];
 
   return (
-    <nav className="bg-cyber-bg/95 border-b border-cyber-border backdrop-blur-2xl relative z-50">
-      <div className="max-w-7xl mx-auto px-6 py-4">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-4 w-full sm:w-auto justify-between">
-            <Link to="/" className="flex items-center gap-3 group">
-              <img src="/logo.svg" alt="App Logo" className="w-10 h-10 object-contain drop-shadow-[0_0_8px_rgba(0,255,157,0.5)] transition-transform duration-500 group-hover:rotate-180" />
-              <span className="text-lg font-orbitron font-black tracking-widest text-cyber-text">
-                CYBER<span className="text-cyber-accent"> BOY</span>
-              </span>
-            </Link>
-            <button
-              className="sm:hidden p-2 text-cyber-muted hover:text-cyber-accent transition-colors"
-              onClick={() => setMenuOpen((open) => !open)}
-              aria-label="Toggle menu"
+    <nav className="fixed top-0 left-0 w-full z-[100] p-6 pointer-events-none">
+      <div className="max-w-[1400px] mx-auto flex items-center justify-between">
+        {/* Logo */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="pointer-events-auto"
+        >
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 bg-cyber-accent rounded-xl flex items-center justify-center rotate-3 group-hover:rotate-12 transition-transform duration-500 shadow-[0_0_20px_rgba(237,255,102,0.3)]">
+              <Rocket className="text-black w-5 h-5" />
+            </div>
+            <span className="font-zentry text-2xl font-black tracking-tighter text-cyber-text">
+              CYBER<span className="text-cyber-accent italic">BOY</span>
+            </span>
+          </Link>
+        </motion.div>
+
+        {/* Desktop Menu */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="hidden md:flex items-center gap-1 p-1 bg-cyber-panel backdrop-blur-3xl rounded-full border border-cyber-border pointer-events-auto shadow-2xl"
+        >
+          {links.map((link) => (
+            <Link
+              key={link.to}
+              to={link.to}
+              className={`relative px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-300 flex items-center gap-2 ${isActive(link.to) ? "text-black" : "text-cyber-muted hover:text-cyber-text"
+                }`}
             >
-              <div className="w-6 h-5 flex flex-col justify-between">
-                <span className={`h-px bg-current transition-all ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-                <span className={`h-px bg-current transition-all ${menuOpen ? 'opacity-0' : ''}`} />
-                <span className={`h-px bg-current transition-all ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
-              </div>
-            </button>
-          </div>
-          <div
-            className={`${menuOpen ? "flex animate-in fade-in slide-in-from-top-2" : "hidden"
-              } sm:flex flex-col sm:flex-row gap-6 items-center`}
+              <span className="relative z-10">{link.label}</span>
+              {isActive(link.to) && (
+                <motion.div
+                  layoutId="nav-pill"
+                  className="absolute inset-0 bg-cyber-accent rounded-full"
+                  transition={{ type: "spring", bounce: 0.25, duration: 0.5 }}
+                />
+              )}
+            </Link>
+          ))}
+        </motion.div>
+
+        {/* Mobile Toggle */}
+        <div className="md:hidden pointer-events-auto">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="w-12 h-12 rounded-2xl bg-cyber-panel border border-cyber-border flex items-center justify-center text-cyber-text"
           >
-            {[
-              { to: "/", label: "Interface" },
-              { to: "/dashboard", label: "Analysis" },
-              { to: "/settings", label: "Protocol" }
-            ].map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className={`text-[10px] font-orbitron uppercase tracking-[0.3em] font-bold transition-all duration-300 relative ${isActive(link.to)
-                  ? "text-cyber-accent"
-                  : "text-cyber-muted hover:text-cyber-text"
-                  }`}
-                onClick={() => setMenuOpen(false)}
-              >
-                {link.label}
-                {isActive(link.to) && (
-                  <span className="absolute -bottom-2 left-0 w-full h-px bg-cyber-accent shadow-[0_0_10px_rgba(245,158,11,0.5)]" />
-                )}
-              </Link>
-            ))}
-          </div>
+            {menuOpen ? <X /> : <Menu />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            className="fixed inset-0 bg-cyber-bg z-[90] p-12 flex flex-col justify-center pointer-events-auto"
+          >
+            <div className="space-y-8">
+              {links.map((link, idx) => (
+                <motion.div
+                  key={link.to}
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: idx * 0.1 }}
+                >
+                  <Link
+                    to={link.to}
+                    onClick={() => setMenuOpen(false)}
+                    className="zentry-title text-6xl hover:text-cyber-accent transition-colors block text-cyber-text"
+                  >
+                    {link.label}
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }
 
 export default Navigation;
+
+
+

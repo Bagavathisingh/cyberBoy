@@ -22,7 +22,7 @@ function AppRoutes() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("cyberboy_theme") || "light";
+    const savedTheme = localStorage.getItem("cyberboy_theme") || "dark";
     document.documentElement.classList.remove("dark", "light");
     document.documentElement.classList.add(savedTheme);
   }, []);

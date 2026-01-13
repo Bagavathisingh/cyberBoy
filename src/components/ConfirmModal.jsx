@@ -1,3 +1,5 @@
+import { motion, AnimatePresence } from "framer-motion";
+
 function ConfirmModal({
   open,
   onClose,
@@ -5,36 +7,65 @@ function ConfirmModal({
   title = "Confirm",
   message = "Are you sure?",
   confirmText = "Confirm",
-  confirmColor = "bg-red-600 hover:bg-red-700",
+  confirmColor = "bg-cyber-accent text-black",
 }) {
-  if (!open) return null;
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md">
-      <div className="bg-cyber-bg p-8 border border-cyber-border shadow-2xl w-full max-w-sm relative">
-        <div className="absolute top-0 left-0 w-8 h-px bg-cyber-accent" />
-        <h3 className="text-sm font-orbitron font-black text-white mb-4 tracking-widest uppercase">
-          {title}
-        </h3>
-        <p className="text-[10px] font-cyber text-cyber-muted mb-8 leading-relaxed">
-          {message}
-        </p>
-        <div className="flex gap-4">
-          <button
+    <AnimatePresence>
+      {open && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-6">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 bg-black/60 backdrop-blur-md"
             onClick={onClose}
-            className="flex-1 px-4 py-3 bg-white/[0.02] border border-cyber-border text-cyber-muted text-[10px] font-orbitron tracking-widest uppercase hover:text-white transition-all"
+          />
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            className="bento-card p-10 md:p-14 w-full max-w-lg relative z-10 border-white/10 bg-[#0A0A0A]/90 shadow-[0_0_100px_rgba(0,0,0,0.5)]"
           >
-            Abort
-          </button>
-          <button
-            onClick={onConfirm}
-            className={`flex-1 px-4 py-3 text-[10px] font-orbitron font-black tracking-widest uppercase transition-all ${confirmColor}`}
-          >
-            {confirmText}
-          </button>
+            <div className="text-center mb-10">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-[2rem] bg-cyber-accent/10 border border-cyber-accent/20 mb-8 font-black font-zentry text-3xl text-cyber-accent italic rotate-12">
+                !
+              </div>
+              <h3 className="zentry-title text-4xl mb-4 leading-none">
+                {title}
+              </h3>
+              <p className="text-sm font-medium text-cyber-muted leading-relaxed uppercase tracking-widest text-[10px]">
+                {message}
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button
+                onClick={onClose}
+                className="flex-1 px-8 py-4 bg-white/5 border border-white/10 text-white/40 text-[10px] font-black tracking-widest uppercase hover:bg-white/10 hover:text-white transition-all rounded-full"
+              >
+                Abort Protocol
+              </button>
+              <button
+                onClick={onConfirm}
+                className={`flex-1 zentry-button ${confirmColor} flex items-center justify-center`}
+              >
+                <span>{confirmText}</span>
+              </button>
+            </div>
+
+            <div className="mt-8 flex justify-center gap-2 opacity-10">
+              <div className="w-1 h-1 rounded-full bg-white" />
+              <div className="w-1 h-1 rounded-full bg-white" />
+              <div className="w-1 h-1 rounded-full bg-white" />
+            </div>
+          </motion.div>
         </div>
-      </div>
-    </div>
+      )}
+    </AnimatePresence>
   );
 }
 
 export default ConfirmModal;
+
+
